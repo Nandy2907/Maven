@@ -5,12 +5,13 @@ pipeline {
     }
     environment {
         SONAR_TOKEN = credentials('Sonarqube-token') // Keep the SonarQube token as defined originally
-        PATH = 'C:\Program Files\Java\jdk-17' // Set JAVA_HOME path for JDK
+        JAVA_HOME = 'C:\\Program Files\\Java\\jdk-17' // Set JAVA_HOME path for JDK
+        PATH = "${JAVA_HOME}\\bin;${env.PATH}" // Add JAVA_HOME to the system PATH
     }
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                checkout scm // Checkout code from source control
             }
         }
         stage('Build') {
