@@ -40,6 +40,14 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- JUnit Vintage Engine for backward compatibility (if using older JUnit versions) -->
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>5.10.0</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- Add other dependencies as needed -->
     </dependencies>
 
@@ -70,7 +78,7 @@
                 <version>3.0.0-M5</version>
                 <configuration>
                     <includes>
-                        <include>**/*Test.java</include>
+                        <include>**/*Test.java</include> <!-- Only includes tests with "Test" in the filename -->
                     </includes>
                 </configuration>
             </plugin>
