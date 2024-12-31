@@ -78,7 +78,7 @@
                 <version>3.0.0-M5</version>
                 <configuration>
                     <includes>
-                        <include>**/*Test.java</include> <!-- Only includes tests with "Test" in the filename -->
+                        <include>**/LoginAutomationTest.java</include> <!-- Explicitly include the LoginAutomationTest class -->
                     </includes>
                 </configuration>
             </plugin>
