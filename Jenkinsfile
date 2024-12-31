@@ -1,44 +1,54 @@
 pipeline {
     agent any
-    tools {
-        maven 'sonarmaven' // Ensure this matches the Maven configuration in Jenkins
-    }
+    
     environment {
-        SONAR_TOKEN = credentials('sonar-token') // Keep the SonarQube token as defined originally
-        JAVA_HOME = 'C:\\Program Files\\Java\\jdk-17' // Set JAVA_HOME path for JDK
-        PATH = "${JAVA_HOME}\\bin;${env.PATH}" // Add JAVA_HOME to the system PATH
+        SONAR_TOKEN = credentials('sonar-token')
+        JAVA_HOME = 'C:\\Program Files\\Java\\jdk-17'
+        PATH = "${JAVA_HOME}\\bin;${env.PATH}"
     }
+    
     stages {
-        stage('Checkout') {
+        stage('Checkout Code') {
             steps {
-                checkout scm // Checkout code from source control
+                checkout scm
             }
         }
-        stage('Build') {
+        
+        stage('Build with Maven') {
             steps {
-                bat 'mvn clean install' // Build the Maven project (use install instead of package to include dependency resolution)
+                bat 'mvn clean package'
             }
         }
+        
+        stage('Run Automation Tests') {
+            steps {
+                bat 'mvn test'
+            }
+        }
+        
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('sonarqube') { // Ensure this matches your SonarQube configuration
+                withSonarQubeEnv('sonarqube') {
                     bat """
-                        sonar-scanner ^
-                        -Dsonar.projectKey=maven ^ 
-                        -Dsonar.sources=. ^
+                        mvn sonar:sonar ^
+                        -Dsonar.projectKey=mern ^
+                        -Dsonar.tests=src/test/java ^
+                        -Dsonar.java.binaries=target/classes ^
+                        -Dsonar.java.test.binaries=target/test-classes ^
                         -Dsonar.host.url=http://localhost:9000 ^
-                        -Dsonar.token=${SONAR_TOKEN}
+                        -Dsonar.login=%SONAR_TOKEN%
                     """
                 }
             }
         }
     }
+    
     post {
         success {
-            echo 'Pipeline completed successfully.'
+            echo 'Pipeline completed successfully!'
         }
         failure {
-            echo 'Pipeline failed.'
+            echo 'Pipeline failed. Check logs for details.'
         }
     }
 }
