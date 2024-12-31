@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -11,9 +12,15 @@ public class LoginAutomationTest {
 
     @Test
     public void testLogin() {
-        // Path to ChromeDriver
+        // Set ChromeDriver path (ensure the path is correct)
         System.setProperty("webdriver.chrome.driver", "C:\\path\\to\\chromedriver.exe");
-        WebDriver driver = new ChromeDriver();
+
+        // Set ChromeOptions for headless mode (optional)
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+
+        // Initialize ChromeDriver with options
+        WebDriver driver = new ChromeDriver(options);
 
         try {
             // Navigate to the login page
