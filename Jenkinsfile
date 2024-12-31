@@ -16,7 +16,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                bat 'mvn clean package' // Build the Maven project
+                bat 'mvn clean install' // Build the Maven project (use install instead of package to include dependency resolution)
             }
         }
         stage('SonarQube Analysis') {
@@ -24,7 +24,7 @@ pipeline {
                 withSonarQubeEnv('sonarqube') { // Ensure this matches your SonarQube configuration
                     bat """
                         sonar-scanner ^
-                        -Dsonar.projectKey=maven ^
+                        -Dsonar.projectKey=maven ^ 
                         -Dsonar.sources=. ^
                         -Dsonar.host.url=http://localhost:9000 ^
                         -Dsonar.token=${SONAR_TOKEN}
