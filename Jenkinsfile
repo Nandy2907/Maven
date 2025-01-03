@@ -2,9 +2,9 @@ pipeline {
     agent any
     
     environment {
-        SONAR_TOKEN = credentials('sonar-token')
+        SONAR_TOKEN = credentials('sonar-token')  // Ensure SonarQube token is correctly configured in Jenkins
         JAVA_HOME = 'C:\\Program Files\\Java\\jdk-17'
-        PATH = "${JAVA_HOME}\\bin;${env.PATH}"
+        PATH = "${JAVA_HOME}\\bin;${env.PATH}"  // Ensure the JAVA_HOME path is correctly configured
     }
     
     stages {
@@ -16,13 +16,13 @@ pipeline {
         
         stage('Build with Maven') {
             steps {
-                bat 'mvn clean package'
+                bat 'mvn clean package'  // Build the project using Maven
             }
         }
         
         stage('Run Automation Tests') {
             steps {
-                bat 'mvn test'
+                bat 'mvn test'  // Run the test suite with Maven
             }
         }
         
@@ -45,10 +45,10 @@ pipeline {
     
     post {
         success {
-            echo 'Pipeline completed successfully!'
+            echo 'Pipeline completed successfully!'  // Success message
         }
         failure {
-            echo 'Pipeline failed. Check logs for details.'
+            echo 'Pipeline failed. Check logs for details.'  // Failure message
         }
     }
 }
