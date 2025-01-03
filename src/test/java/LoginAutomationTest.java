@@ -1,6 +1,5 @@
 package com.example.automation;
 
-import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,8 +7,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.time.Duration;
 
 class LoginAutomationTest {
@@ -34,15 +33,9 @@ class LoginAutomationTest {
             // Navigate to the OrangeHRM demo site
             driver.get("https://opensource-demo.orangehrmlive.com/");
 
-            // Wait for the username field to be visible
-            WebElement usernameField = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.name("username"))
-            );
-
-            // Locate the password field
+            // Wait for the username field to be visible and input credentials
+            WebElement usernameField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("username")));
             WebElement passwordField = driver.findElement(By.name("password"));
-
-            // Input credentials
             usernameField.sendKeys("Admin");
             passwordField.sendKeys("admin123");
 
